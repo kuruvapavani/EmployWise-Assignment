@@ -1,8 +1,9 @@
 import React from 'react'
+import UserCard from '../components/user-card/UserCard'
 
 const UsersPage = () => {
   return (
-    <div>UsersPage</div>
+    <UserCard />
   )
 }
 
