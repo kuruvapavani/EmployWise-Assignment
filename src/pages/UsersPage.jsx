@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 import UserCard from "../components/user-card/UserCard";
 import axios from "axios";
 
 const UsersPage = () => {
+  const navigate = useNavigate(); // Initialize navigation
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -17,23 +19,33 @@ const UsersPage = () => {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    const fetchUsers = async () => {
-      setLoading(true);
-      try {
-        const response = await axios.get(
-          `https://reqres.in/api/users?page=${currentPage}`
-        );
-        setUsers(response.data.data);
-        setTotalPages(response.data.total_pages);
-      } catch (error) {
-        setError("Failed to load users. Please try again.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/login"); // Redirect to login if no token
+      return;
+    }
     fetchUsers();
-  }, [currentPage]);
+  }, [currentPage, navigate]);
+
+  const fetchUsers = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(
+        `https://reqres.in/api/users?page=${currentPage}`
+      );
+      setUsers(response.data.data);
+      setTotalPages(response.data.total_pages);
+    } catch (error) {
+      setError("Failed to load users. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token"); // Remove token
+    navigate("/login"); // Redirect to login page
+  };
 
   const handleEditClick = (user) => {
     setEditingUser(user);
@@ -79,9 +91,18 @@ const UsersPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-950 text-white flex flex-col items-center p-8">
+    <div className="min-h-screen bg-gray-950 text-white flex flex-col items-center p-8 relative">
+      {/* Logout Button */}
+      <button
+        onClick={handleLogout}
+        className="absolute top-4 right-4 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
+      >
+        Logout
+      </button>
+
       <h1 className="text-3xl font-bold mb-6 text-cyan-400">User List</h1>
       {message && <p className="text-green-400">{message}</p>}
+
       {loading ? (
         <p className="text-gray-300">Loading...</p>
       ) : error ? (
