@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/kuruvapavani/EmployWise-Assignment.git/static/css/main.441d8cd9.css",
+    "main.js": "/kuruvapavani/EmployWise-Assignment.git/static/js/main.4e805a68.js",
+    "index.html": "/kuruvapavani/EmployWise-Assignment.git/index.html",
+    "main.441d8cd9.css.map": "/kuruvapavani/EmployWise-Assignment.git/static/css/main.441d8cd9.css.map",
+    "main.4e805a68.js.map": "/kuruvapavani/EmployWise-Assignment.git/static/js/main.4e805a68.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.441d8cd9.css",
+    "static/js/main.4e805a68.js"
+  ]
+}
